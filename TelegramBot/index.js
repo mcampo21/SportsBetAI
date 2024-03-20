@@ -27,7 +27,6 @@ app.post("*", async (req, res) => {
 });
 
 app.get("*", async (req, res) => {
-    //res.status(200).send(await handler(req));
     res.status(200).send("server is live")
 }); 
 
