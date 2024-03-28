@@ -9,7 +9,7 @@ function sendMessage(messageObj, messageText) {
 }
 
 let conversationState = {};
-let statTypes = new Set(['points', 'assits', 'rebounds', 'steals', 'blocks', 'all']);
+let statTypes = {'points': 'PTS', 'assits': 'AST', 'rebounds': 'REB', 'steals': 'STL', 'blocks': 'BLK', 'all': 'ALL'};
 
 function handleMessage(messageObj) {
     const messageText = messageObj.text.toLowerCase() || "";
@@ -41,12 +41,12 @@ function handleMessage(messageObj) {
                     ]
                 };
 
-                if (!statTypes.has(messageText)) {
+                if (messageText in statTypes === false) {
                     sendMessage(messageObj,
                         "Sorry, please select from the following stat types:\
                         \nPoints, Assits, Rebounds, Steals, Blocks, All")
                 } else {
-                    conversationState[userId].stat = messageText;
+                    conversationState[userId].stat = statTypes[messageText];
                     // call python script
                     getPrediction(conversationState[userId].name, conversationState[userId].stat, (result) => {
                         sendMessage(messageObj, result);
